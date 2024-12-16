@@ -21,6 +21,10 @@ from pets.views import register
 from pets.views import manage_users 
 from pets.views import restricted_view
 from pets.views import admin_view
+from pets.views import PetDetailView
+from pets.views import PetListView
+from pets.views import VeterinaryServiceDetailView
+from pets.views import VeterinaryServiceListView
  
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -30,4 +34,8 @@ urlpatterns = [
     path('manage-users/', manage_users, name='manage_users'),
     path('restricted/', restricted_view, name='restricted_view'),
     path('admin_view/', admin_view, name='admin_view'),
+    path('pets/', PetListView.as_view(), name='pet_list'),
+    path('vet_services/', VeterinaryServiceListView.as_view(), name='vet_service_list'),
+    path('vet_services/<int:pk>/', VeterinaryServiceDetailView.as_view(), name='vet_service_detail'),
+    path('pets/<int:pk>/', PetDetailView.as_view(), name='pet_detail'),
 ]
