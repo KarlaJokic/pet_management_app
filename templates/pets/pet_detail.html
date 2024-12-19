@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Detalji ljubimca</title>
+</head>
+<body>
+    <h1>Detalji ljubimca: {{ pet.name }}</h1>
+    <p>Vrsta: {{ pet.get_species_display }}</p>
+    <p>Pasmine: {{ pet.breed|default:"Nepoznato" }}</p>
+    <p>Godine: {{ pet.age }}</p>
+    <p>Ime vlasnika: {{ pet.owner_name }}</p>
+    <p>Kontakt vlasnika: {{ pet.owner_contact }}</p>
+
+    <h2>Veterinarske usluge</h2>
+    <ul>
+        {% for service in pet.veterinaryservice_set.all %}
+            <li>
+                <strong>Vrsta usluge:</strong> {{ service.service_type }} <br>
+                <strong>Datum:</strong> {{ service.service_date }} <br>
+                <strong>Opis:</strong> {{ service.description|default:"Nema opisa" }} <br>
+                <strong>Cijena:</strong> {{ service.cost }} kn
+            </li>
+        {% empty %}
+            <p>Nema zabilježenih veterinarskih usluga za ovog ljubimca.</p>
+        {% endfor %}
+    </ul>
+</body>
+</html>

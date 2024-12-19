@@ -1,0 +1,23 @@
+{% block content %}
+    <h2>Ljubimci</h2>
+    <ul>
+        {% for pet in object_list %}
+            <li>
+                Ime: {{ pet.name }}<br>
+                Vrsta: {{ pet.species }}<br>
+                Pasmina: {{ pet.breed }}<br>
+                Godine: {{ pet.age }}<br>
+                Ime vlasnika: {{ pet.owner_name }}<br>
+                Kontakt vlasnika: {{ pet.owner_contact }}<br>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+{% for obj in objects %}
+    <p>{{ obj.species }}</p> 
+{% endfor %}
+
+<form method="get">
+    <input type="text" name="filter_param" placeholder="Filter..." value="{{ request.GET.filter_param }}">
+    <button type="submit">Pretraži</button>
+</form>
