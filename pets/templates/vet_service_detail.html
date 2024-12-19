@@ -1,7 +1,0 @@
-<!-- vet_service_detail.html -->
-<h1>{{ vet_service.service_type }} for {{ vet_service.pet.name }}</h1>
-<p>Date: {{ vet_service.service_date }}</p>
-<p>Description: {{ vet_service.description }}</p>
-<p>Cost: ${{ vet_service.cost }}</p>
-
-<a href="{% url 'vet_service_list' %}">Back to service list</a>
