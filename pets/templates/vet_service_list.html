@@ -1,0 +1,12 @@
+<form method="get" action="{% url 'vet_service_list' %}">
+    <input type="text" name="q" placeholder="Search veterinary services" value="{{ request.GET.q }}">
+    <button type="submit">Search</button>
+</form>
+
+<ul>
+    {% for service in services %}
+        <li>{{ service.service_type }} - {{ service.pet.name }} - {{ service.service_date }} - ${{ service.cost }}</li>
+    {% empty %}
+        <li>No services found.</li>
+    {% endfor %}
+</ul>
