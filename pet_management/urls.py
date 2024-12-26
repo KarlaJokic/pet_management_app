@@ -25,6 +25,11 @@ from pets.views import PetDetailView
 from pets.views import PetListView
 from pets.views import VeterinaryServiceDetailView
 from pets.views import VeterinaryServiceListView
+from pets.views import (
+    PetCreateView, PetUpdateView, PetDeleteView,
+    VeterinaryServiceCreateView, VeterinaryServiceUpdateView, VeterinaryServiceDeleteView
+)
+
  
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -38,4 +43,15 @@ urlpatterns = [
     path('vet_services/', VeterinaryServiceListView.as_view(), name='vet_service_list'),
     path('vet_services/<int:pk>/', VeterinaryServiceDetailView.as_view(), name='vet_service_detail'),
     path('pets/<int:pk>/', PetDetailView.as_view(), name='pet_detail'),
+     # Create
+    path('pets/create/', PetCreateView.as_view(), name='pet_create'),
+    path('vet_services/create/', VeterinaryServiceCreateView.as_view(), name='vet_service_create'),
+
+    # Update
+    path('pets/<int:pk>/update/', PetUpdateView.as_view(), name='pet_update'),
+    path('vet_services/<int:pk>/update/', VeterinaryServiceUpdateView.as_view(), name='vet_service_update'),
+
+    # Delete
+    path('pets/<int:pk>/delete/', PetDeleteView.as_view(), name='pet_delete'),
+    path('vet_services/<int:pk>/delete/', VeterinaryServiceDeleteView.as_view(), name='vet_service_delete'),
 ]

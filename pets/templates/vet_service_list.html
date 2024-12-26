@@ -1,5 +1,6 @@
 <form method="get" action="{% url 'vet_service_list' %}">
     <input type="text" name="q" placeholder="Search veterinary services" value="{{ request.GET.q }}">
+    <input type="date" name="date" value="{{ request.GET.date }}">
     <button type="submit">Search</button>
 </form>
 
@@ -10,3 +11,21 @@
         <li>No services found.</li>
     {% endfor %}
 </ul>
+
+<div class="pagination">
+    <span class="step-links">
+        {% if vet_services.has_previous %}
+            <a href="?page=1">&laquo; Prva</a>
+            <a href="?page={{ vet_services.previous_page_number }}">Prethodna</a>
+        {% endif %}
+
+        <span class="current">
+            Stranica {{ vet_services.number }} od {{ vet_services.paginator.num_pages }}
+        </span>
+
+        {% if vet_services.has_next %}
+            <a href="?page={{ vet_services.next_page_number }}">Sljedeća</a>
+            <a href="?page={{ vet_services.paginator.num_pages }}">Zadnja &raquo;</a>
+        {% endif %}
+    </span>
+</div>

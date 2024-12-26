@@ -1,0 +1,7 @@
+<h1>Delete Veterinary Service</h1>
+<p>Are you sure you want to delete the service "{{ object.service_type }}" for "{{ object.pet.name }}"?</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Yes, delete</button>
+</form>
+<a href="{% url 'vet_service_list' %}">Cancel</a>

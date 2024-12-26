@@ -1,0 +1,7 @@
+<h1>{% if object %}Update Pet{% else %}Add New Pet{% endif %}</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Save</button>
+</form>
+<a href="{% url 'pet_list' %}">Cancel</a>

@@ -3,9 +3,9 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.views.generic import ListView, DetailView
-from .models import Pet
-from .models import VeterinaryService
-from datetime import datetime
+from django.urls import reverse_lazy
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from .models import Pet, VeterinaryService
 
 # View for user registration
 def register(request):
@@ -39,51 +39,92 @@ def is_admin(user):
 def admin_view(request):
     return render(request, 'admin_only.html')
 
-# ListView for displaying all pets
+# ListView for displaying all pets with filtering and pagination
 class PetListView(ListView):
     model = Pet
-    template_name = 'pet_management_app/pet_list.html'  # Path to the template
+    template_name = 'pets/pet_list.html'  # Path to the template
     context_object_name = 'pets'
     paginate_by = 10  # Paginate results
 
     def get_queryset(self):
         queryset = Pet.objects.all()
 
-        # Filter by user if specified in GET request
-        user = self.request.GET.get('user')
-        if user:
-            queryset = queryset.filter(owner__username=user)
-
-        # Filter by creation date if specified in GET request
-        created_after = self.request.GET.get('created_after')
-        if created_after:
-            queryset = queryset.filter(created__gte=created_after)
-
+        # Filter by name (search functionality)
+        query = self.request.GET.get('q', '')
+        if query:
+            queryset = queryset.filter(name__icontains=query)
+        
         return queryset
 
 # DetailView for displaying the details of a specific pet
 class PetDetailView(DetailView):
     model = Pet
-    template_name = 'pet_management_app/pet_detail.html'  # Path to the template
+    template_name = 'pets/pet_detail.html'  # Path to the template
     context_object_name = 'pet'
 
-
-# ListView za prikaz svih veterinarskih usluga
+# ListView for displaying all veterinary services with filtering
 class VeterinaryServiceListView(ListView):
     model = VeterinaryService
-    template_name = 'vet_service_list.html'  # Predložak koji ćemo kasnije napraviti
+    template_name = 'vet_services/vet_service_list.html'  # Path to the template
     context_object_name = 'vet_services'
+    paginate_by = 10  # Paginate results
 
     def get_queryset(self):
-        # Filtriranje prema vrsti usluge
         queryset = VeterinaryService.objects.all()
+
+        # Filter by service type or date
         service_query = self.request.GET.get('service', '')
         if service_query:
-            queryset = queryset.filter(service_type__icontains=service_query)  # Pretraživanje prema vrsti usluge
+            queryset = queryset.filter(service_type__icontains=service_query)
+        
+        date_query = self.request.GET.get('date', '')
+        if date_query:
+            queryset = queryset.filter(service_date=date_query)
+        
         return queryset
 
-# DetailView za veterinarske usluge
+# DetailView for veterinary services
 class VeterinaryServiceDetailView(DetailView):
     model = VeterinaryService
-    template_name = 'vet_service_detail.html'  # Predložak koji ćemo kasnije napraviti
+    template_name = 'vet_services/vet_service_detail.html'  # Path to the template
     context_object_name = 'vet_service'
+
+# CreateView for Pet
+class PetCreateView(CreateView):
+    model = Pet
+    template_name = 'pets/pet_form.html'
+    fields = ['name', 'species', 'breed', 'age', 'owner_name', 'owner_contact']
+    success_url = reverse_lazy('pet_list')  # Redirect to pet list after successful creation
+
+# CreateView for VeterinaryService
+class VeterinaryServiceCreateView(CreateView):
+    model = VeterinaryService
+    template_name = 'vet_services/vet_service_form.html'
+    fields = ['pet', 'service_date', 'service_type', 'description', 'cost']
+    success_url = reverse_lazy('vet_service_list')  # Redirect to service list after successful creation
+
+# UpdateView for Pet
+class PetUpdateView(UpdateView):
+    model = Pet
+    template_name = 'pets/pet_form.html'
+    fields = ['name', 'species', 'breed', 'age', 'owner_name', 'owner_contact']
+    success_url = reverse_lazy('pet_list')  # Redirect to pet list after successful update
+
+# UpdateView for VeterinaryService
+class VeterinaryServiceUpdateView(UpdateView):
+    model = VeterinaryService
+    template_name = 'vet_services/vet_service_form.html'
+    fields = ['pet', 'service_date', 'service_type', 'description', 'cost']
+    success_url = reverse_lazy('vet_service_list')  # Redirect to service list after successful update
+
+# DeleteView for Pet
+class PetDeleteView(DeleteView):
+    model = Pet
+    template_name = 'pets/pet_confirm_delete.html'
+    success_url = reverse_lazy('pet_list')  # Redirect to pet list after successful deletion
+
+# DeleteView for VeterinaryService
+class VeterinaryServiceDeleteView(DeleteView):
+    model = VeterinaryService
+    template_name = 'vet_services/vet_service_confirm_delete.html'
+    success_url = reverse_lazy('vet_service_list')  # Redirect to service list after successful deletion
