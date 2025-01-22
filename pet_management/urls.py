@@ -15,7 +15,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from django.contrib.auth import views as auth_views
 from pets.views import register
 from pets.views import manage_users 
@@ -23,12 +23,17 @@ from pets.views import restricted_view
 from pets.views import admin_view
 from pets.views import PetDetailView
 from pets.views import PetListView
+from rest_framework.routers import DefaultRouter
+from pets.views import PetViewSet
 from pets.views import VeterinaryServiceDetailView
 from pets.views import VeterinaryServiceListView
 from pets.views import (
     PetCreateView, PetUpdateView, PetDeleteView,
     VeterinaryServiceCreateView, VeterinaryServiceUpdateView, VeterinaryServiceDeleteView
 )
+
+router = DefaultRouter()
+router.register(r'api/pets', PetViewSet)
 
  
 urlpatterns = [
@@ -54,4 +59,5 @@ urlpatterns = [
     # Delete
     path('pets/<int:pk>/delete/', PetDeleteView.as_view(), name='pet_delete'),
     path('vet_services/<int:pk>/delete/', VeterinaryServiceDeleteView.as_view(), name='vet_service_delete'),
+    path('', include(router.urls)),
 ]

@@ -6,6 +6,10 @@ from django.views.generic import ListView, DetailView
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Pet, VeterinaryService
+from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticated
+from .models import Pet
+from .serializers import PetSerializer
 
 # View for user registration
 def register(request):
@@ -128,3 +132,13 @@ class VeterinaryServiceDeleteView(DeleteView):
     model = VeterinaryService
     template_name = 'vet_services/vet_service_confirm_delete.html'
     success_url = reverse_lazy('vet_service_list')  # Redirect to service list after successful deletion
+
+
+class PetViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint koji omogućava pregled i uređivanje podataka o ljubimcima.
+    """
+    queryset = Pet.objects.all()
+    serializer_class = PetSerializer
+    permission_classes = [IsAuthenticated]  # Ograničava pristup prijavljenim korisnicima
+
