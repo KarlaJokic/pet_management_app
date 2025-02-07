@@ -1,7 +1,11 @@
-<h1>Delete Veterinary Service</h1>
-<p>Are you sure you want to delete the service "{{ object.service_type }}" for "{{ object.pet.name }}"?</p>
-<form method="post">
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="text-2xl font-semibold mb-4">Delete Veterinary Service</h1>
+<p class="text-lg">Are you sure you want to delete the service "{{ object.service_type }}" for "{{ object.pet.name }}"?</p>
+<form method="post" class="space-y-4">
     {% csrf_token %}
-    <button type="submit">Yes, delete</button>
+    <button type="submit" class="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-700">Yes, delete</button>
 </form>
-<a href="{% url 'vet_service_list' %}">Cancel</a>
+<a href="{% url 'vet_service_list' %}" class="text-blue-500 hover:underline">Cancel</a>
+{% endblock %}

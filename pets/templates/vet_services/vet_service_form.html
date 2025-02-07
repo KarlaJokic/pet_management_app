@@ -1,7 +1,11 @@
-<h1>{% if object %}Update Veterinary Service{% else %}Add New Veterinary Service{% endif %}</h1>
-<form method="post">
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="text-2xl font-semibold mb-4">{% if object %}Update Veterinary Service{% else %}Add New Veterinary Service{% endif %}</h1>
+<form method="post" class="space-y-4">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Save</button>
+    <button type="submit" class="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-700">Save</button>
 </form>
-<a href="{% url 'vet_service_list' %}">Cancel</a>
+<a href="{% url 'vet_service_list' %}" class="text-blue-500 hover:underline">Cancel</a>
+{% endblock %}

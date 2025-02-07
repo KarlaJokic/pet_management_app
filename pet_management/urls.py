@@ -17,6 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
+from pets.views import home_view 
 from pets.views import register
 from pets.views import manage_users 
 from pets.views import restricted_view
@@ -38,6 +39,7 @@ router.register(r'api/pets', PetViewSet)
  
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', home_view, name='home'),
     path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('register/', register, name='register'),
@@ -60,4 +62,5 @@ urlpatterns = [
     path('pets/<int:pk>/delete/', PetDeleteView.as_view(), name='pet_delete'),
     path('vet_services/<int:pk>/delete/', VeterinaryServiceDeleteView.as_view(), name='vet_service_delete'),
     path('', include(router.urls)),
+    
 ]

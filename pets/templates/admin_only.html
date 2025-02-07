@@ -1,10 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Admin Only</title>
-</head>
-<body>
-    <h2>Admin Only Page</h2>
-    <p>This page is restricted to superusers.</p>
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block content %}
+<h2 class="text-2xl font-semibold mb-4">Admin Only Page</h2>
+<p class="text-lg">This page is restricted to superusers.</p>
+{% endblock %}

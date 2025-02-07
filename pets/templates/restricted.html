@@ -1,10 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Restricted</title>
-</head>
-<body>
-    <h2>Restricted Page</h2>
-    <p>This page is restricted to logged-in users.</p>
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block content %}
+<h2 class="text-2xl font-semibold mb-4">Restricted Page</h2>
+<p class="text-lg">This page is restricted to logged-in users.</p>
+{% endblock %}

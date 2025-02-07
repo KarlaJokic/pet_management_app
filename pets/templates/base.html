@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+    {% load static %} 
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Pet Management App{% endblock %}</title>
+    <!-- Link to Tailwind CSS -->
+    <link href="{% static 'css/tailwind.css' %}" rel="stylesheet">
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <!-- Header with navigation (example) -->
+    <header class="bg-blue-600 text-white p-4">
+        <nav class="container mx-auto flex justify-between items-center">
+            <a href="{% url 'home' %}" class="text-xl font-semibold">Pet Management App</a>
+            <div>
+                <a href="{% url 'login' %}" class="px-4 py-2 hover:bg-blue-700 rounded">Login</a>
+                <a href="{% url 'register' %}" class="px-4 py-2 hover:bg-blue-700 rounded">Register</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main content section -->
+    <main class="container mx-auto my-6">
+        {% block content %}
+        <!-- Content from other templates will go here -->
+        {% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-4 text-center">
+        <p>&copy; 2025 Pet Management App | Sva prava pridržana.</p>
+    </footer>
+
+ <!-- Include HTMX script -->
+    <script src="https://unpkg.com/htmx@2.0.0/dist/htmx.min.js"></script>
+</body>
+</html>

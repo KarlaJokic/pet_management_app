@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}Početna stranica - Pet Management App{% endblock %}
+
+{% block content %}
+<div class="text-center py-10">
+    <h1 class="text-4xl font-bold mb-4">Dobrodošli u Pet Management App!</h1>
+    <p class="text-lg text-gray-700 mb-6">
+        Ovdje možete pronaći sve informacije o ljubimcima, veterinarskim uslugama i još mnogo toga.
+    </p>
+    <a href="{% url 'pet_list' %}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+        Pregledaj ljubimce
+    </a>
+
+    <a href="{% url 'vet_service_list' %}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded ml-4">
+        Pogledaj usluge
+    </a>
+</div>
+{% endblock %}

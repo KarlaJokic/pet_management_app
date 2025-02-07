@@ -1,31 +1,51 @@
-<form method="get" action="{% url 'vet_service_list' %}">
-    <input type="text" name="q" placeholder="Search veterinary services" value="{{ request.GET.q }}">
-    <input type="date" name="date" value="{{ request.GET.date }}">
-    <button type="submit">Search</button>
+{% extends 'base.html' %}
+
+{% block content %}
+<h2 class="text-2xl font-bold mb-4">Veterinarske usluge</h2>
+
+<!-- Forma za pretragu -->
+<form method="get" action="{% url 'vet_service_list' %}" class="space-y-4 mb-6">
+    <input type="text" name="q" placeholder="Pretraži usluge" value="{{ request.GET.q }}" class="border rounded-lg p-2 w-full">
+    <input type="date" name="date" value="{{ request.GET.date }}" class="border rounded-lg p-2 w-full">
+    <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700">Pretraži</button>
 </form>
 
-<ul>
+<!-- Dugme za dodavanje nove usluge -->
+<a href="{% url 'vet_service_create' %}" class="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-700 mb-4 inline-block">Dodaj uslugu</a>
+
+<!-- Lista usluga -->
+<ul class="space-y-2 mb-6">
     {% for service in services %}
-        <li>{{ service.service_type }} - {{ service.pet.name }} - {{ service.service_date }} - ${{ service.cost }}</li>
+        <li class="p-4 bg-gray-100 rounded-md flex justify-between items-center">
+            <div>
+                <strong>{{ service.service_type }}</strong> - {{ service.pet.name }} - {{ service.service_date }} - ${{ service.cost }}
+            </div>
+            <div>
+                <a href="{% url 'vet_service_update' service.pk %}" class="text-blue-500 hover:underline">Uredi</a>
+                <a href="{% url 'vet_service_delete' service.pk %}" class="text-red-500 hover:underline ml-4">Obriši</a>
+            </div>
+        </li>
     {% empty %}
-        <li>No services found.</li>
+        <li class="text-gray-500">Nema pronađenih usluga.</li>
     {% endfor %}
 </ul>
 
+<!-- Navigacija kroz stranice -->
 <div class="pagination">
     <span class="step-links">
-        {% if vet_services.has_previous %}
-            <a href="?page=1">&laquo; Prva</a>
-            <a href="?page={{ vet_services.previous_page_number }}">Prethodna</a>
+        {% if services.has_previous %}
+            <a href="?page=1" class="text-blue-500 hover:underline">&laquo; Prva</a>
+            <a href="?page={{ services.previous_page_number }}" class="text-blue-500 hover:underline">Prethodna</a>
         {% endif %}
-
-        <span class="current">
-            Stranica {{ vet_services.number }} od {{ vet_services.paginator.num_pages }}
+        
+        <span class="current text-lg">
+            Stranica {{ services.number }} od {{ services.paginator.num_pages }}
         </span>
-
-        {% if vet_services.has_next %}
-            <a href="?page={{ vet_services.next_page_number }}">Sljedeća</a>
-            <a href="?page={{ vet_services.paginator.num_pages }}">Zadnja &raquo;</a>
+        
+        {% if services.has_next %}
+            <a href="?page={{ services.next_page_number }}" class="text-blue-500 hover:underline">Sljedeća</a>
+            <a href="?page={{ services.paginator.num_pages }}" class="text-blue-500 hover:underline">Zadnja &raquo;</a>
         {% endif %}
     </span>
 </div>
+{% endblock %}

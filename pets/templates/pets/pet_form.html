@@ -1,7 +1,15 @@
-<h1>{% if object %}Update Pet{% else %}Add New Pet{% endif %}</h1>
-<form method="post">
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="text-2xl font-semibold mb-4">{% if object %}Update Pet{% else %}Add New Pet{% endif %}</h1>
+<form method="post" class="space-y-4" hx-post="{% url 'pet_create' %}" hx-target="#pet-form-container" hx-swap="innerHTML">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Save</button>
+    <button type="submit" class="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-700">Save</button>
 </form>
-<a href="{% url 'pet_list' %}">Cancel</a>
+<a href="{% url 'pet_list' %}" class="text-blue-500 hover:underline">Cancel</a>
+
+<!-- Div za prikazivanje odgovora nakon slanja forme -->
+<div id="pet-form-container"></div>
+
+{% endblock %}

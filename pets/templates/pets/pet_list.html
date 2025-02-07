@@ -1,31 +1,49 @@
-<!-- pet_list.html -->
-<form method="get" action="">
-    <label for="user">Korisnik:</label>
-    <input type="text" name="user" id="user" placeholder="Pretraži po korisniku">
-    <label for="created_after">Kreirano nakon:</label>
-    <input type="date" name="created_after" id="created_after">
-    <button type="submit">Filtriraj</button>
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="text-2xl font-bold mb-4">Ljubimci</h1>
+
+<!-- Dugme za dodavanje ljubimca -->
+<a href="{% url 'pet_create' %}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mb-4 inline-block">
+    Dodaj ljubimca
+</a>
+
+<!-- Pretraga ljubimaca -->
+<form method="get" action="{% url 'pet_list' %}" class="space-y-4 mb-6">
+    <input type="text" name="q" placeholder="Pretraži ljubimce" value="{{ request.GET.q }}" class="border rounded-lg p-2 w-full">
+    <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700">Filtriraj</button>
 </form>
 
-<ul>
+<!-- Lista ljubimaca -->
+<ul class="space-y-2 mb-6">
     {% for pet in pets %}
-        <li>{{ pet.name }} ({{ pet.owner.username }}), {{ pet.created }}</li>
+        <li class="p-2 bg-gray-100 rounded-md flex justify-between items-center">
+            <!-- Dodan link na detaljan prikaz ljubimca -->
+            <a href="{% url 'pet_detail' pet.pk %}" class="text-blue-500 font-semibold hover:underline">
+                {{ pet.name }}
+            </a> - {{ pet.species }} - {{ pet.age }} godina
+            <div>
+                <a href="{% url 'pet_update' pet.pk %}" class="text-yellow-500 hover:underline">Uredi</a> |
+                <a href="{% url 'pet_delete' pet.pk %}" class="text-red-500 hover:underline">Obriši</a>
+            </div>
+        </li>
+    {% empty %}
+        <li class="text-gray-500">Nema dostupnih ljubimaca.</li>
     {% endfor %}
 </ul>
 
 <!-- Paginacija -->
 <div class="pagination">
-    <span class="step-links">
-        {% if pets.has_previous %}
-            <a href="?page=1">&laquo; prvo</a>
-            <a href="?page={{ pets.previous_page_number }}">prethodna</a>
-        {% endif %}
-        <span class="current">
-            Strana {{ pets.number }} od {{ pets.paginator.num_pages }}.
-        </span>
-        {% if pets.has_next %}
-            <a href="?page={{ pets.next_page_number }}">sljedeća</a>
-            <a href="?page={{ pets.paginator.num_pages }}">zadnja &raquo;</a>
-        {% endif %}
-    </span>
+    {% if pets.has_previous %}
+        <a href="?page=1" class="text-blue-500 hover:underline">&laquo; Prva</a>
+        <a href="?page={{ pets.previous_page_number }}" class="text-blue-500 hover:underline">Prethodna</a>
+    {% endif %}
+
+    <span class="current text-lg">Stranica {{ pets.number }} od {{ pets.paginator.num_pages }}</span>
+
+    {% if pets.has_next %}
+        <a href="?page={{ pets.next_page_number }}" class="text-blue-500 hover:underline">Sledeća</a>
+        <a href="?page={{ pets.paginator.num_pages }}" class="text-blue-500 hover:underline">Zadnja &raquo;</a>
+    {% endif %}
 </div>
+{% endblock %}

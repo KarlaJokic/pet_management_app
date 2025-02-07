@@ -1,10 +1,12 @@
-<!-- pet_detail.html -->
-<h1>{{ pet.name }}</h1>
-<p>Vlasnik: {{ pet.owner.username }}</p>
-<p>Datum kreiranja: {{ pet.created }}</p>
-<p>Opis: {{ pet.description }}</p>
+{% extends 'base.html' %}
 
-<!-- Relacija - primjer -->
+{% block content %}
+<h1 class="text-3xl font-semibold mb-4">{{ pet.name }}</h1>
+<p class="text-lg">Vlasnik: {{ pet.owner.username }}</p>
+<p class="text-lg">Datum kreiranja: {{ pet.created }}</p>
+<p class="text-lg">Opis: {{ pet.description }}</p>
+
 {% if pet.veterinarian %}
-    <p>Veterinar: {{ pet.veterinarian.name }}</p>
+    <p class="text-lg">Veterinar: {{ pet.veterinarian.name }}</p>
 {% endif %}
+{% endblock %}

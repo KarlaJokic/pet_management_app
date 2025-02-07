@@ -17,11 +17,19 @@ class Pet(models.Model):
         return f"{self.name} ({self.species})"
 
 class VeterinaryService(models.Model):
+    SERVICE_CHOICES = [
+        ('vaccination', 'Vaccination'),
+        ('checkup', 'General Checkup'),
+        ('surgery', 'Surgery'),
+        ('dental', 'Dental Care'),
+        ('grooming', 'Grooming'),
+    ]
+
     pet = models.ForeignKey(Pet, on_delete=models.CASCADE)
     service_date = models.DateField()
-    service_type = models.CharField(max_length=100)
+    service_type = models.CharField(max_length=50, choices=SERVICE_CHOICES)
     description = models.TextField(blank=True, null=True)
     cost = models.DecimalField(max_digits=10, decimal_places=2)
 
     def __str__(self):
-        return f"{self.service_type} for {self.pet.name} on {self.service_date}"
+        return f"{self.get_service_type_display()} for {self.pet.name} on {self.service_date}"
