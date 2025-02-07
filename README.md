@@ -29,4 +29,4 @@ Ova aplikacija omogućava upravljanje ljubimcima i veterinarskim uslugama, uklju
 4. `PUT /api/pets/{id}/`: Ažuriranje podataka ljubimca.
 5. `DELETE /api/pets/{id}/`: Brisanje ljubimca.
 
-## Autor(i): Karla Jokić i Eli Lipovac (lab4 + završni)
+## Autor(i): Karla Jokić i Emili Lipovac (lab4 + završni)
