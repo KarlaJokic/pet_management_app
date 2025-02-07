@@ -1,11 +1,28 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1 class="text-2xl font-semibold mb-4">{% if object %}Update Veterinary Service{% else %}Add New Veterinary Service{% endif %}</h1>
-<form method="post" class="space-y-4">
+<h1 class="text-2xl font-semibold mb-4">
+    {% if object %}Ažuriraj veterinarsku uslugu{% else %}Dodaj novu veterinarsku uslugu{% endif %}
+</h1>
+
+<form method="post" class="space-y-4 bg-white p-6 rounded-lg shadow-md max-w-lg mx-auto">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-700">Save</button>
+    
+    <div class="space-y-2">
+        {% for field in form %}
+            <div>
+                <label class="block text-sm font-medium text-gray-700">{{ field.label }}</label>
+                {{ field }}
+                {% if field.errors %}
+                    <p class="text-red-500 text-sm">{{ field.errors.0 }}</p>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="flex justify-between mt-4">
+        <button type="submit" class="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-700">Spremi</button>
+        <a href="{% url 'vet_service_list' %}" class="text-blue-500 hover:underline">Odustani</a>
+    </div>
 </form>
-<a href="{% url 'vet_service_list' %}" class="text-blue-500 hover:underline">Cancel</a>
 {% endblock %}

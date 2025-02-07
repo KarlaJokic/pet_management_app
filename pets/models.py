@@ -3,10 +3,10 @@ from django.db import models
 class Pet(models.Model):
     name = models.CharField(max_length=100)
     species = models.CharField(max_length=50, choices=[
-        ('dog', 'Dog'),
-        ('cat', 'Cat'),
-        ('bird', 'Bird'),
-        ('other', 'Other'),
+        ('pas', 'Pas'),
+        ('mačka', 'Mačka'),
+        ('ptica', 'Ptica'),
+        ('drugo', 'Drugo'),
     ])
     breed = models.CharField(max_length=100, blank=True, null=True)
     age = models.PositiveIntegerField()
@@ -18,11 +18,11 @@ class Pet(models.Model):
 
 class VeterinaryService(models.Model):
     SERVICE_CHOICES = [
-        ('vaccination', 'Vaccination'),
-        ('checkup', 'General Checkup'),
-        ('surgery', 'Surgery'),
-        ('dental', 'Dental Care'),
-        ('grooming', 'Grooming'),
+        ('cijepljenje', 'Cijepljenje'),
+        ('pregled', 'Generalni pregled'),
+        ('operacija', 'Operacija'),
+        ('dental', 'Dentalni zahvat'),
+        ('šišanje', 'Šišanje'),
     ]
 
     pet = models.ForeignKey(Pet, on_delete=models.CASCADE)

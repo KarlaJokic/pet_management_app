@@ -70,7 +70,15 @@ class PetDetailView(DetailView):
     template_name = 'pets/pet_detail.html'  
     context_object_name = 'pet'
 
+
+    def get_context_data(self, **kwargs):
+     context = super().get_context_data(**kwargs)
+     print(self.object.owner_name, self.object.owner_contact)   # Debugging
+     context['veterinary_services'] = VeterinaryService.objects.filter(pet=self.object)
+     return context
+
 # ListView for displaying all veterinary services with filtering
+
 class VeterinaryServiceListView(ListView):
     model = VeterinaryService
     template_name = 'vet_services/vet_service_list.html'  # Path to the template
@@ -89,6 +97,8 @@ class VeterinaryServiceListView(ListView):
             queryset = queryset.filter(service_date=date_query)
         
         return queryset
+
+
 
 # DetailView for veterinary services
 class VeterinaryServiceDetailView(DetailView):

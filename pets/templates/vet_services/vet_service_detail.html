@@ -2,9 +2,9 @@
 
 {% block content %}
 <h1 class="text-3xl font-semibold mb-4">{{ vet_service.service_type }} for {{ vet_service.pet.name }}</h1>
-<p class="text-lg">Date: {{ vet_service.service_date }}</p>
-<p class="text-lg">Description: {{ vet_service.description }}</p>
-<p class="text-lg">Cost: ${{ vet_service.cost }}</p>
+<p class="text-lg">Datum: {{ vet_service.service_date }}</p>
+<p class="text-lg">Opis: {{ vet_service.description }}</p>
+<p class="text-lg">Iznos u  €: ${{ vet_service.cost }}</p>
 
 <a href="{% url 'vet_service_list' %}" class="text-blue-500 hover:underline">Back to service list</a>
 {% endblock %}

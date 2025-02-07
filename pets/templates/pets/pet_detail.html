@@ -2,9 +2,11 @@
 
 {% block content %}
 <h1 class="text-3xl font-semibold mb-4">{{ pet.name }}</h1>
-<p class="text-lg">Vlasnik: {{ pet.owner.username }}</p>
-<p class="text-lg">Datum kreiranja: {{ pet.created }}</p>
-<p class="text-lg">Opis: {{ pet.description }}</p>
+<p>Vrsta: {{ pet.species }}</p>
+<p>Pasmina: {{ pet.breed }}</p>
+<p>Dob: {{ pet.age }}</p>
+<p>Vlasnik: {{ pet.owner_name }}</p>
+<p>Kontakt vlasnika: {{ pet.owner_contact }}</p>
 
 {% if pet.veterinarian %}
     <p class="text-lg">Veterinar: {{ pet.veterinarian.name }}</p>
