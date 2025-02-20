@@ -1,18 +1,20 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1 class="text-2xl font-semibold mb-4">
+<h1 class="text-2xl font-semibold mb-4 text-gray-00"> 
     {% if object %}Ažuriraj veterinarsku uslugu{% else %}Dodaj novu veterinarsku uslugu{% endif %}
 </h1>
 
-<form method="post" class="space-y-4 bg-white p-6 rounded-lg shadow-md max-w-lg mx-auto">
+<form method="post" class="space-y-4 bg-white p-6 rounded-lg shadow-md max-w-lg mx-auto border border-gray-300">
     {% csrf_token %}
     
     <div class="space-y-2">
         {% for field in form %}
             <div>
-                <label class="block text-sm font-medium text-gray-700">{{ field.label }}</label>
-                {{ field }}
+                <label class="block text-sm font-medium text-gray-800">{{ field.label }}</label> <!-- Tamniji tekst -->
+                <div class="border border-gray-400 rounded p-2 text-gray-800"> <!-- Taman tekst u input poljima -->
+                    {{ field }}
+                </div>
                 {% if field.errors %}
                     <p class="text-red-500 text-sm">{{ field.errors.0 }}</p>
                 {% endif %}
