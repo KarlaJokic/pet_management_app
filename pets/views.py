@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect
+from django.core.paginator import Paginator
 from django.contrib.auth.forms import UserCreationForm
+from django.utils.dateparse import parse_date
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.views.generic import ListView, DetailView
@@ -55,7 +57,7 @@ class PetListView(ListView):
     paginate_by = 10  
 
     def get_queryset(self):
-        queryset = Pet.objects.all()
+        queryset = Pet.objects.all().order_by('id')
 
         # Filter by name (search functionality)
         query = self.request.GET.get('q', '')
@@ -63,6 +65,16 @@ class PetListView(ListView):
             queryset = queryset.filter(name__icontains=query)
         
         return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        pets_list = self.get_queryset()
+        paginator = Paginator(pets_list, self.paginate_by)
+        page = self.request.GET.get('page')
+        pets = paginator.get_page(page)
+
+        context['pets'] = pets  
+        return context
 
 # DetailView for displaying the details of a specific pet
 class PetDetailView(DetailView):
@@ -84,20 +96,32 @@ class VeterinaryServiceListView(ListView):
     template_name = 'vet_services/vet_service_list.html'  # Path to the template
     context_object_name = 'vet_services'
     paginate_by = 10  
+
     def get_queryset(self):
-        queryset = VeterinaryService.objects.all()
+        queryset = VeterinaryService.objects.all().order_by('id')
 
         # Filter by service type or date
-        service_query = self.request.GET.get('service', '')
-        if service_query:
-            queryset = queryset.filter(service_type__icontains=service_query)
-        
+        query = self.request.GET.get('q', '')
+        if query:
+            queryset = queryset.filter(service_type__icontains=query)
+       
         date_query = self.request.GET.get('date', '')
         if date_query:
-            queryset = queryset.filter(service_date=date_query)
-        
-        return queryset
+            date_obj = parse_date(date_query) 
+            if date_obj:
+                queryset = queryset.filter(service_date=date_obj)
 
+        return queryset
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        service_list = self.get_queryset()
+        paginator = Paginator(service_list, self.paginate_by)
+        v_page = self.request.GET.get('page')
+        vet_services = paginator.get_page(v_page)
+
+        context['vet_services'] = vet_services  
+        return context
 
 
 # DetailView for veterinary services

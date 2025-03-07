@@ -12,26 +12,32 @@
 <ul class="space-y-2 mb-6">
     {% for service in vet_services %}
         <li class="p-2 bg-gray-100 rounded-md">{{ service.service_type }} - {{ service.pet.name }} - {{ service.service_date }} - ${{ service.cost }}</li>
+        <div>
+            <a href="{% url 'vet_service_update' service.pk %}" class="text-yellow-500 hover:underline">Uredi</a> |
+            <a href="{% url 'vet_service_delete' service.pk %}" class="text-red-500 hover:underline">Obriši</a>
+        </div>
     {% empty %}
         <li>No services found.</li>
     {% endfor %}
 </ul>
 
-<div class="pagination">
-    <span class="step-links">
+{% if vet_services.paginator.num_pages > 1 %}
+    <div class="pagination mt-4 flex items-center space-x-2">
         {% if vet_services.has_previous %}
-            <a href="?page=1" class="text-blue-500 hover:underline">&laquo; Prva</a>
-            <a href="?page={{ vet_services.previous_page_number }}" class="text-blue-500 hover:underline">Prethodna</a>
+            <a href="?page=1" class="px-3 py-1 border rounded bg-gray-200 text-blue-500 font-semibold hover:underline">Prva</a>
+            <a href="?page={{ vet_services.previous_page_number }}" class="px-3 py-1 border rounded bg-gray-200 text-blue-500 font-semibold hover:underline">Prethodna</a>
         {% endif %}
-        
-        <span class="current text-lg">
+
+        <span class="px-3 py-1 border rounded bg-gray-200 text-blue-500 font-semibold">
             Stranica {{ vet_services.number }} od {{ vet_services.paginator.num_pages }}
         </span>
-        
+
         {% if vet_services.has_next %}
-            <a href="?page={{ vet_services.next_page_number }}" class="text-blue-500 hover:underline">Sljedeća</a>
-            <a href="?page={{ vet_services.paginator.num_pages }}" class="text-blue-500 hover:underline">Zadnja &raquo;</a>
+            <a href="?page={{ vet_services.next_page_number }}" class="px-3 py-1 border rounded bg-gray-200 text-blue-500 font-semibold hover:underline">Slijedeća</a>
+            <a href="?page={{ vet_services.paginator.num_pages }}" class="px-3 py-1 border rounded bg-gray-200 text-blue-500 font-semibold hover:underline">Posljednja</a>
         {% endif %}
-    </span>
-</div>
+    </div>
+{% endif %}
+
+
 {% endblock %}

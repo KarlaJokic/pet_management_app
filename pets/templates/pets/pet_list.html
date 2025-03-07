@@ -33,17 +33,22 @@
 </ul>
 
 <!-- Paginacija -->
-<div class="pagination">
-    {% if pets.has_previous %}
-        <a href="?page=1" class="text-blue-500 hover:underline">&laquo; Prva</a>
-        <a href="?page={{ pets.previous_page_number }}" class="text-blue-500 hover:underline">Prethodna</a>
-    {% endif %}
+{% if pets.has_other_pages %}
+    <div class="pagination mt-4 flex items-center space-x-2">
+        {% if pets.has_previous %}
+            <a href="?page=1{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" class="px-3 py-1 border rounded bg-gray-200 text-blue-500 font-semibold hover:underline">Prva</a>
+            <a href="?page={{ pets.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" class="px-3 py-1 border rounded bg-gray-200 text-blue-500 font-semibold hover:underline">Prethodna</a>
+        {% endif %}
 
-    <span class="current text-lg">Stranica {{ pets.number }} od {{ pets.paginator.num_pages }}</span>
+        <span class="px-3 py-1 border rounded bg-blue-100 text-blue-500 font-semibold">
+            Stranica {{ pets.number }} od {{ pets.paginator.num_pages }}
+        </span>
 
-    {% if pets.has_next %}
-        <a href="?page={{ pets.next_page_number }}" class="text-blue-500 hover:underline">Sledeća</a>
-        <a href="?page={{ pets.paginator.num_pages }}" class="text-blue-500 hover:underline">Zadnja &raquo;</a>
-    {% endif %}
-</div>
+        {% if pets.has_next %}
+            <a href="?page={{ pets.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" class="px-3 py-1 border rounded bg-gray-200 text-blue-500 font-semibold hover:underline">Slijedeća</a>
+            <a href="?page={{ pets.paginator.num_pages }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" class="px-3 py-1 border rounded bg-gray-200 text-blue-500 font-semibold hover:underline">Posljednja</a>
+        {% endif %}
+    </div>
+{% endif %}
+
 {% endblock %}
